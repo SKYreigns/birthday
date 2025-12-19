@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday, Tanya ❤️</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        overflow: hidden;
+        background: #1a1a2e;
+        color: white;
+      }
+
+      /* ===== BOKEH BACKGROUND ===== */
+      .bokeh-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 50%,
+          #f093fb 100%
+        );
+        overflow: hidden;
+      }
+
+      .bokeh {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.6;
+        animation: float 20s infinite ease-in-out;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(30px, -30px) scale(1.1);
+        }
+        66% {
+          transform: translate(-20px, 20px) scale(0.9);
+        }
+      }
+
+      /* ===== SCENES ===== */
+      .scene {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 1s ease;
+      }
+
+      .scene.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* ===== COUNTDOWN SCENE ===== */
+      #countdown-scene {
+        text-align: center;
+      }
+
+      .countdown-timer {
+        font-size: 8rem;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+        letter-spacing: 0.5rem;
+        text-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          text-shadow: 0 0 40px rgba(255, 255, 255, 0.5);
+        }
+        50% {
+          text-shadow: 0 0 60px rgba(255, 255, 255, 0.8);
+        }
+      }
+
+      .countdown-message {
+        font-size: 2rem;
+        font-family: "Great Vibes", cursive;
+        margin-top: 2rem;
+        opacity: 0.9;
+      }
+
+      /* ===== OPEN IT SCENE ===== */
+      #openit-scene {
+        text-align: center;
+      }
+
+      .birthday-greeting {
+        font-size: 4.5rem;
+        font-family: "Great Vibes", cursive;
+        margin-bottom: 3rem;
+        animation: fadeFloat 2s ease-out;
+      }
+
+      @keyframes fadeFloat {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .open-button {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border: none;
+        padding: 1.5rem 4rem;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 40px rgba(245, 87, 108, 0.4);
+        transition: all 0.3s ease;
+        animation: fadeFloat 2s ease-out 0.5s backwards;
+      }
+
+      .open-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 15px 60px rgba(245, 87, 108, 0.6);
+      }
+
+      /* ===== MESSAGE REVEAL SCENE ===== */
+      #message-scene {
+        text-align: center;
+      }
+
+      .message-text {
+        font-size: 5rem;
+        font-family: "Great Vibes", cursive;
+        animation: fadeFloat 2s ease-out;
+      }
+
+      /* ===== SLIDESHOW SCENE ===== */
+      #slideshow-scene {
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      .slideshow-container {
+        width: 80%;
+        max-width: 900px;
+        height: 70vh;
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+
+      .slide.active {
+        opacity: 1;
+      }
+
+      .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        animation: kenBurns 1s ease-in-out;
+      }
+
+      @keyframes kenBurns {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+
+      .slide-text {
+  position: absolute;
+  bottom: 8%;
+  width: 100%;
+  text-align: center;
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.6rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  opacity: 0;
+  animation: textFadeIn 2s ease forwards;
+  pointer-events: none;
+}
+.slide.active .slide-text {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@keyframes textFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+      /* ===== CAKE SCENE ===== */
+      #cake-scene {
+        text-align: center;
+      }
+
+      .cake-instruction {
+        font-size: 2rem;
+        font-family: "Great Vibes", cursive;
+        margin-bottom: 3rem;
+        animation: fadeFloat 1s ease-out;
+      }
+
+      .cake-container {
+        position: relative;
+        width: 400px;
+        height: 500px;
+        margin: 0 auto;
+      }
+
+      /* Cake Layers */
+      .cake {
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+      }
+
+      .cake-layer {
+        position: relative;
+        margin: 0 auto;
+        transition: all 0.3s ease;
+      }
+
+      .cake-layer-1 {
+        width: 300px;
+        height: 100px;
+        background: linear-gradient(to bottom, #f5d0c5 0%, #d4a5a5 100%);
+        border-radius: 15px 15px 8px 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .cake-layer-2 {
+        width: 200px;
+        height: 80px;
+        background: linear-gradient(to bottom, #f5d0c5 0%, #d4a5a5 100%);
+        border-radius: 15px 15px 8px 8px;
+        margin-top: -5px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .frosting {
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 15px;
+        background: white;
+        border-radius: 50%;
+      }
+
+      .decoration {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: #f5576c;
+        border-radius: 50%;
+      }
+
+      /* Candles */
+      .candles {
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 30px;
+      }
+
+      .candle {
+        width: 8px;
+        height: 50px;
+        background: linear-gradient(to right, #ffd700, #ffed4e);
+        border-radius: 4px 4px 0 0;
+        position: relative;
+        box-shadow: 0 2px 10px rgba(255, 215, 0, 0.5);
+      }
+
+      .flame {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 20px;
+        background: linear-gradient(to top, #ff6b35, #f7931e, #ffe66d);
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        box-shadow: 0 0 20px #ff6b35;
+        animation: flicker 0.3s infinite alternate;
+      }
+
+      @keyframes flicker {
+        0% {
+          transform: translateX(-50%) scale(1);
+        }
+        100% {
+          transform: translateX(-50%) scale(1.1);
+        }
+      }
+
+      .cake-slice {
+        position: absolute;
+        bottom: 50px;
+        width: 60px;
+        height: 30px;
+        background: linear-gradient(to bottom, #f5d0c5 0%, #d4a5a5 100%);
+        border-radius: 5px;
+        transform-origin: center;
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        pointer-events: all;
+      }
+
+      .cake-slice.cut {
+        animation: sliceFall 1s ease-out forwards;
+      }
+
+      @keyframes sliceFall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(300px) rotate(45deg);
+          opacity: 0;
+        }
+      }
+
+      .continue-button {
+        margin-top: 3rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 1.2rem 3rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: white;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 40px rgba(118, 75, 162, 0.4);
+        transition: all 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .continue-button.visible {
+        opacity: 1;
+        pointer-events: all;
+        animation: fadeFloat 1s ease-out;
+      }
+
+      .continue-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 15px 60px rgba(118, 75, 162, 0.6);
+      }
+
+      /* ===== VIDEO SCENE ===== */
+      #video-scene {
+        background: rgba(0, 0, 0, 0.95);
+      }
+
+      .video-container {
+        width: 90%;
+        max-width: 1200px;
+        position: relative;
+      }
+
+      .video-container video {
+        width: 100%;
+        height: auto;
+        border-radius: 20px;
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+      }
+
+      .skip-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid white;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        color: white;
+        border-radius: 25px;
+        cursor: pointer;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+        opacity: 0;
+        animation: fadeIn 1s ease-out 3s forwards;
+      }
+
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      .skip-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.05);
+      }
+
+      /* ===== CONFETTI ===== */
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: #f5576c;
+        position: absolute;
+        animation: confettiFall 3s linear forwards;
+        z-index: 100;
+      }
+
+      @keyframes confettiFall {
+        to {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .countdown-timer {
+          font-size: 4rem;
+        }
+        .birthday-greeting,
+        .message-text {
+          font-size: 2.5rem;
+        }
+        .cake-container {
+          transform: scale(0.8);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Bokeh Background -->
+    <div class="bokeh-container" id="bokeh-container"></div>
+
+    <!-- Scene 1: Countdown -->
+    <div class="scene active" id="countdown-scene">
+      <div class="countdown-timer" id="countdown-timer">00 : 00 : 00</div>
+      <div class="countdown-message">
+        Something special is waiting for you...
+      </div>
+    </div>
+
+    <!-- Scene 2: Open It Button -->
+    <div class="scene" id="openit-scene">
+      <div class="birthday-greeting">Happy Birthday,<br />Tanya ❤️</div>
+      <button class="open-button" id="open-button">Open it 🎁</button>
+    </div>
+
+    <!-- Scene 3: Message Reveal -->
+    <div class="scene" id="message-scene">
+      <div class="message-text">Happy Birthday, Tanya ❤️</div>
+    </div>
+
+    <!-- Scene 4: Photo Slideshow -->
+    <div class="scene" id="slideshow-scene">
+      <div class="slideshow-container" id="slideshow-container">
+        <!-- Slides will be added dynamically -->
+      </div>
+    </div>
+
+    <!-- Scene 5: Cake Cutting -->
+    <div class="scene" id="cake-scene">
+      <div class="cake-instruction">Make a wish and cut the cake 🎂</div>
+      <div class="cake-container">
+        <div class="cake">
+          <div class="cake-layer cake-layer-2">
+            <div class="frosting"></div>
+            <div class="candles">
+              <div class="candle"><div class="flame"></div></div>
+              <div class="candle"><div class="flame"></div></div>
+              <div class="candle"><div class="flame"></div></div>
+            </div>
+          </div>
+          <div class="cake-layer cake-layer-1">
+            <div class="frosting"></div>
+            <div class="decoration" style="top: 20px; left: 20px"></div>
+            <div class="decoration" style="top: 20px; right: 20px"></div>
+            <div class="decoration" style="top: 50px; left: 50px"></div>
+            <div class="decoration" style="top: 50px; right: 50px"></div>
+          </div>
+        </div>
+        <div id="slices-container"></div>
+      </div>
+      <button class="continue-button" id="continue-button">Move Ahead →</button>
+    </div>
+
+    <!-- Scene 6: Video Message -->
+    <div class="scene" id="video-scene">
+      <div class="video-container">
+        <video id="birthday-video" preload="auto">
+          <source src="/assets/VIDEO.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <button class="skip-button" id="skip-button">Skip →</button>
+      </div>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="bg-music" loop>
+      <source src="/assets/music2.mp3" type="audio/mp3" />
+    </audio>
+
+    <script>
+  // ===== CONFIGURATION =====
+  const CONFIG = {
+    targetDate: new Date("2025-12-10T00:00:00").getTime(),
+
+    photos: [
+      'IMG1.jpg',
+      'IMG2.jpg',
+      'IMG3.jpeg',
+      'IMG4.jpeg',
+      'IMG5.jpeg',
+      'IMG6.jpeg',
+      'IMG7.jpeg',
+      'img8.jpeg',
+      'img9.jpeg',
+      'img10.jpeg'
+    ],
+
+    messages: [
+  "Every smile here is a memory the world was lucky to witness.",
+  "Some moments don’t fade — they quietly become part of who you are.",
+  "This isn’t just a photo… it’s a feeling that stayed.",
+  "You carry light into places without even trying.",
+  "Time slows down when happiness looks like this.",
+  "If joy had a face, it would look very familiar.",
+  "You make ordinary days quietly unforgettable.",
+  "Some memories feel soft — like they were made to be held gently.",
+  "These are the moments that whisper, ‘Remember me.’",
+  "Every picture tells a story, and all of these say the same thing…",
+],
+
+
+    slideDuration: 5,
+
+    backgroundMusic: "music2.mp3",
+    birthdayVideo: "video.mp4",
+
+    enableMusic: true, // ✅ ENABLE MUSIC
+  };
+
+  // ===== STATE MANAGEMENT =====
+  let currentScene = "countdown";
+  const bgMusic = document.getElementById("bg-music");
+
+  // ===== AUDIO HELPERS =====
+  function fadeOutAudio(audio, duration = 1500) {
+    if (!audio || audio.paused) return;
+
+    const steps = 40;
+    const stepTime = duration / steps;
+    const startVolume = audio.volume;
+    let currentStep = 0;
+
+    const fade = setInterval(() => {
+      currentStep++;
+      audio.volume = Math.max(
+        0,
+        startVolume - (startVolume * currentStep) / steps
+      );
+
+      if (currentStep >= steps) {
+        clearInterval(fade);
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    }, stepTime);
+  }
+
+  // ===== BOKEH BACKGROUND =====
+  function createBokeh() {
+    const container = document.getElementById("bokeh-container");
+    const colors = ["#ffd6e8", "#fff4e6", "#e6f3ff", "#f5e6ff", "#fff0f5"];
+
+    for (let i = 0; i < 20; i++) {
+      const bokeh = document.createElement("div");
+      bokeh.className = "bokeh";
+      bokeh.style.width = `${Math.random() * 200 + 50}px`;
+      bokeh.style.height = bokeh.style.width;
+      bokeh.style.left = `${Math.random() * 100}%`;
+      bokeh.style.top = `${Math.random() * 100}%`;
+      bokeh.style.background =
+        colors[Math.floor(Math.random() * colors.length)];
+      bokeh.style.animationDelay = `${Math.random() * 5}s`;
+      bokeh.style.animationDuration = `${Math.random() * 10 + 15}s`;
+      container.appendChild(bokeh);
+    }
+  }
+
+  // ===== SCENE TRANSITIONS =====
+  function transitionToScene(sceneId) {
+    const scenes = document.querySelectorAll(".scene");
+    scenes.forEach((scene) => scene.classList.remove("active"));
+
+    setTimeout(() => {
+      document.getElementById(sceneId).classList.add("active");
+      currentScene = sceneId;
+    }, 500);
+  }
+
+  // ===== COUNTDOWN LOGIC =====
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = CONFIG.targetDate - now;
+
+    if (distance < 0) {
+      transitionToScene("openit-scene");
+      return;
+    }
+
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown-timer").textContent =
+      `${String(hours).padStart(2, "0")} : ${String(minutes).padStart(2, "0")} : ${String(seconds).padStart(2, "0")}`;
+
+    setTimeout(updateCountdown, 1000);
+  }
+
+  // ===== OPEN IT BUTTON =====
+document.getElementById("open-button").addEventListener("click", function () {
+  if (CONFIG.enableMusic) {
+    bgMusic.currentTime = 0;   // ✅ ensures fresh play
+    bgMusic.volume = 0.6;
+    bgMusic.play().catch(err => {
+      console.warn("Audio blocked:", err);
+    });
+  }
+
+  transitionToScene("message-scene");
+
+  setTimeout(() => {
+    startSlideshow();
+  }, 4000);
+});
+
+
+  // ===== PHOTO SLIDESHOW =====
+  function startSlideshow() {
+  const container = document.getElementById("slideshow-container");
+  container.innerHTML = "";
+
+  CONFIG.photos.forEach((photo, index) => {
+    const slide = document.createElement("div");
+    slide.className = "slide";
+    if (index === 0) slide.classList.add("active");
+
+    const img = document.createElement("img");
+    img.src = photo;
+    img.alt = `Memory ${index + 1}`;
+
+    const text = document.createElement("div");
+    text.className = "slide-text";
+    text.textContent = CONFIG.messages[index] || "";
+
+    slide.appendChild(img);
+    slide.appendChild(text);
+
+    // ✅ THIS LINE WAS MISSING (CRITICAL)
+    container.appendChild(slide);
+  });
+
+  transitionToScene("slideshow-scene");
+
+  let currentSlide = 0;
+  const slides = document.querySelectorAll(".slide");
+
+  const slideInterval = setInterval(() => {
+    slides[currentSlide].classList.remove("active");
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add("active");
+
+    if (currentSlide === 0) {
+      clearInterval(slideInterval);
+      setTimeout(() => {
+        setupCakeScene();
+      }, CONFIG.slideDuration * 1000);
+    }
+  }, CONFIG.slideDuration * 1000);
+}
+
+
+  // ===== CAKE CUTTING =====
+  function setupCakeScene() {
+    transitionToScene("cake-scene");
+
+    const slicesContainer = document.getElementById("slices-container");
+    const sliceCount = 8;
+    let cutSlices = 0;
+
+    for (let i = 0; i < sliceCount; i++) {
+      const slice = document.createElement("div");
+      slice.className = "cake-slice";
+
+      const angle = (360 / sliceCount) * i;
+      const radius = 100;
+      const x = Math.cos((angle * Math.PI) / 180) * radius;
+      const y = Math.sin((angle * Math.PI) / 180) * radius;
+
+      slice.style.left = `calc(50% + ${x}px)`;
+      slice.style.bottom = `${150 + y}px`;
+      slice.style.transform = `rotate(${angle}deg)`;
+
+      slice.addEventListener("click", function () {
+        if (!this.classList.contains("cut")) {
+          this.classList.add("cut");
+          cutSlices++;
+          createConfetti(this);
+
+          if (cutSlices === sliceCount) {
+            fadeOutAudio(bgMusic, 1500); // ✅ STOP MUSIC HERE
+
+            setTimeout(() => {
+              document
+                .getElementById("continue-button")
+                .classList.add("visible");
+            }, 1200);
+          }
+        }
+      });
+
+      slicesContainer.appendChild(slice);
+    }
+  }
+
+  // ===== CONFETTI =====
+  function createConfetti(element) {
+    const colors = ["#f5576c", "#ffd700", "#4ecdc4", "#ff6b6b", "#95e1d3"];
+    const rect = element.getBoundingClientRect();
+
+    for (let i = 0; i < 20; i++) {
+      const confetti = document.createElement("div");
+      confetti.className = "confetti";
+      confetti.style.left = rect.left + rect.width / 2 + "px";
+      confetti.style.top = rect.top + "px";
+      confetti.style.background =
+        colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = `${Math.random() * 0.3}s`;
+      document.body.appendChild(confetti);
+
+      setTimeout(() => confetti.remove(), 3000);
+    }
+  }
+
+  // ===== CONTINUE TO VIDEO =====
+  document.getElementById("continue-button").addEventListener("click", function () {
+    transitionToScene("video-scene");
+    const video = document.getElementById("birthday-video");
+    video.play().catch(() => {});
+  });
+
+  // ===== VIDEO CONTROLS =====
+  document.getElementById("skip-button").addEventListener("click", function () {
+    const video = document.getElementById("birthday-video");
+    video.pause();
+    document.getElementById("video-scene").style.opacity = "0";
+  });
+
+  document.getElementById("birthday-video").addEventListener("ended", function () {
+    document.getElementById("video-scene").style.opacity = "0";
+  });
+
+  // ===== INIT =====
+  window.addEventListener("load", function () {
+    createBokeh();
+    updateCountdown();
+  });
+</script>
+
+  </body>
+</html>
